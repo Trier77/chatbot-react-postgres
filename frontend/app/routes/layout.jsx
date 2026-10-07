@@ -1,32 +1,56 @@
 import { Outlet } from "react-router";
 
-export default function Layout() {
-  return (
-    <div className="app-layout">
-      <aside className="sidebar">
-        {/* Sidebar header */}
-        <div className="sidebar-header">
+function SidebarHeader(){
+  return(
+    
+    <div className="sidebar-header">
           <h2 className="chatbot-title">Chatbot</h2>
           <a href="/chat/new" className="new-chat-btn">
             + New
           </a>
         </div>
-        {/* Chat threads list */}
-        <nav className="chat-threads-list" aria-label="Chat threads">
-          <ul>
-            <li className="chat-thread-item">
+  );
+}
+
+function SidebarFooter(){
+  return(
+    <div className="sidebar-footer">
+          <a href="/profile" className="user-profile">
+            <img
+              src="https://ui-avatars.com/api/?name=Batman&background=0D0D0D&color=fff&size=40"
+              alt="User avatar"
+              className="user-avatar"
+              width={30}
+              height={30}
+            />
+            <span className="user-name">Batman</span>
+          </a>
+        </div>
+  );
+}
+
+function ChatThreadItem({props}){
+  return(
+    <li className="chat-thread-item">
               <a
-                href="/chat/how-to-learn-programming"
-                className="chat-thread-link"
-              >
-                How to learn programming?
+                href={props.href}>{props.title}
               </a>
             </li>
+  );
+  
+}
+
+function ChatThreadsList(){
+  return(
+    <nav className="chat-threads-list" aria-label="Chat threads">
+          <ul>
+            <ChatThreadItem href="/chat/how-to-learn-programming" title="How to learn programming" />
             <li className="chat-thread-item">
               <a href="/chat/best-pizza-toppings" className="chat-thread-link">
                 What are the best pizza toppings?
               </a>
             </li>
+            
             <li className="chat-thread-item">
               <a
                 href="/chat/explain-quantum-physics"
@@ -107,20 +131,27 @@ export default function Layout() {
             </li>
           </ul>
         </nav>
+  );
+}
+
+function Sidebar(){
+  
+  return(
+<aside className="sidebar">
+        {/* Sidebar header */}
+        <SidebarHeader />
+        {/* Chat threads list */}
+        <ChatThreadsList />
         {/* Sidebar footer */}
-        <div className="sidebar-footer">
-          <a href="/profile" className="user-profile">
-            <img
-              src="https://ui-avatars.com/api/?name=Batman&background=0D0D0D&color=fff&size=40"
-              alt="User avatar"
-              className="user-avatar"
-              width={30}
-              height={30}
-            />
-            <span className="user-name">Batman</span>
-          </a>
-        </div>
+        <SidebarFooter />
       </aside>
+      );
+}
+
+export default function Layout() {
+  return (
+    <div className="app-layout">
+      <Sidebar />
       <main className="main-content">
         <Outlet />
       </main>
