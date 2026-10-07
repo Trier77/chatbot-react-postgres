@@ -1,157 +1,94 @@
 import { Outlet } from "react-router";
+import Sidebar from "../components/Sidebar.jsx";
 
-function SidebarHeader(){
-  return(
-    
-    <div className="sidebar-header">
-          <h2 className="chatbot-title">Chatbot</h2>
-          <a href="/chat/new" className="new-chat-btn">
-            + New
-          </a>
-        </div>
-  );
-}
+/**
+ * STATIC DATA AT MODULE SCOPE
+ *
+ * Moving threads data to layout demonstrates:
+ * 1. DATA LIFTING: Moving data up to parent components
+ * 2. PROP DRILLING: Passing data through multiple component layers
+ * 3. CENTRALIZED DATA: Managing navigation data at the layout level
+ * 4. COMPONENT REUSABILITY: Sidebar can work with different thread arrays
+ */
+const threads = [
+  {
+    id: 1,
+    href: "/chat/how-to-learn-programming",
+    title: "How to learn programming?",
+  },
+  {
+    id: 2,
+    href: "/chat/best-pizza-toppings",
+    title: "What are the best pizza toppings?",
+  },
+  {
+    id: 3,
+    href: "/chat/explain-quantum-physics",
+    title: "Can you explain quantum physics?",
+  },
+  {
+    id: 4,
+    href: "/chat/morning-routine-ideas",
+    title: "Help me create a morning routine",
+  },
+  {
+    id: 5,
+    href: "/chat/weekend-activity-suggestions",
+    title: "What should I do this weekend?",
+  },
+  { id: 6, href: "/chat/why-sky-blue", title: "Why is the sky blue?" },
+  {
+    id: 7,
+    href: "/chat/learn-new-language",
+    title: "How do I learn a new language?",
+  },
+  {
+    id: 8,
+    href: "/chat/meaning-of-life",
+    title: "What's the meaning of life?",
+  },
+  { id: 9, href: "/chat/funny-joke-please", title: "Tell me a funny joke" },
+  {
+    id: 10,
+    href: "/chat/healthy-dinner-ideas",
+    title: "What's a healthy dinner idea?",
+  },
+  {
+    id: 11,
+    href: "/chat/good-book-recommendations",
+    title: "Recommend me a good book",
+  },
+  {
+    id: 12,
+    href: "/chat/creative-writing-prompt",
+    title: "Give me a creative writing prompt",
+  },
+  {
+    id: 13,
+    href: "/chat/fix-slow-computer",
+    title: "My computer is slow, help?",
+  },
+  {
+    id: 14,
+    href: "/chat/interesting-history-fact",
+    title: "Tell me an interesting history fact",
+  },
+];
 
-function SidebarFooter(){
-  return(
-    <div className="sidebar-footer">
-          <a href="/profile" className="user-profile">
-            <img
-              src="https://ui-avatars.com/api/?name=Batman&background=0D0D0D&color=fff&size=40"
-              alt="User avatar"
-              className="user-avatar"
-              width={30}
-              height={30}
-            />
-            <span className="user-name">Batman</span>
-          </a>
-        </div>
-  );
-}
-
-function ChatThreadItem({props}){
-  return(
-    <li className="chat-thread-item">
-              <a
-                href={props.href}>{props.title}
-              </a>
-            </li>
-  );
-  
-}
-
-function ChatThreadsList(){
-  return(
-    <nav className="chat-threads-list" aria-label="Chat threads">
-          <ul>
-            <ChatThreadItem href="/chat/how-to-learn-programming" title="How to learn programming" />
-            <li className="chat-thread-item">
-              <a href="/chat/best-pizza-toppings" className="chat-thread-link">
-                What are the best pizza toppings?
-              </a>
-            </li>
-            
-            <li className="chat-thread-item">
-              <a
-                href="/chat/explain-quantum-physics"
-                className="chat-thread-link"
-              >
-                Can you explain quantum physics?
-              </a>
-            </li>
-            <li className="chat-thread-item">
-              <a
-                href="/chat/morning-routine-ideas"
-                className="chat-thread-link"
-              >
-                Help me create a morning routine
-              </a>
-            </li>
-            <li className="chat-thread-item">
-              <a
-                href="/chat/weekend-activity-suggestions"
-                className="chat-thread-link"
-              >
-                What should I do this weekend?
-              </a>
-            </li>
-            <li className="chat-thread-item">
-              <a href="/chat/why-sky-blue" className="chat-thread-link">
-                Why is the sky blue?
-              </a>
-            </li>
-            <li className="chat-thread-item">
-              <a href="/chat/learn-new-language" className="chat-thread-link">
-                How do I learn a new language?
-              </a>
-            </li>
-            <li className="chat-thread-item">
-              <a href="/chat/meaning-of-life" className="chat-thread-link">
-                What's the meaning of life?
-              </a>
-            </li>
-            <li className="chat-thread-item">
-              <a href="/chat/funny-joke-please" className="chat-thread-link">
-                Tell me a funny joke
-              </a>
-            </li>
-            <li className="chat-thread-item">
-              <a href="/chat/healthy-dinner-ideas" className="chat-thread-link">
-                What's a healthy dinner idea?
-              </a>
-            </li>
-            <li className="chat-thread-item">
-              <a
-                href="/chat/good-book-recommendations"
-                className="chat-thread-link"
-              >
-                Recommend me a good book
-              </a>
-            </li>
-            <li className="chat-thread-item">
-              <a
-                href="/chat/creative-writing-prompt"
-                className="chat-thread-link"
-              >
-                Give me a creative writing prompt
-              </a>
-            </li>
-            <li className="chat-thread-item">
-              <a href="/chat/fix-slow-computer" className="chat-thread-link">
-                My computer is slow, help?
-              </a>
-            </li>
-            <li className="chat-thread-item">
-              <a
-                href="/chat/interesting-history-fact"
-                className="chat-thread-link"
-              >
-                Tell me an interesting history fact
-              </a>
-            </li>
-          </ul>
-        </nav>
-  );
-}
-
-function Sidebar(){
-  
-  return(
-<aside className="sidebar">
-        {/* Sidebar header */}
-        <SidebarHeader />
-        {/* Chat threads list */}
-        <ChatThreadsList />
-        {/* Sidebar footer */}
-        <SidebarFooter />
-      </aside>
-      );
-}
-
+/**
+ * Layout Component
+ *
+ * Now demonstrates PROP DRILLING and DATA FLOW:
+ * 1. DATA MANAGEMENT: Layout manages navigation threads data
+ * 2. PROP DRILLING: Data flows Layout -> Sidebar -> ChatThreadsList
+ * 3. CENTRALIZED CONTROL: Navigation data controlled at layout level
+ * 4. COMPONENT COORDINATION: Parent coordinates data between child components
+ */
 export default function Layout() {
   return (
     <div className="app-layout">
-      <Sidebar />
+      {/* Passing threads as props - starts the prop drilling chain! */}
+      <Sidebar threads={threads} />
       <main className="main-content">
         <Outlet />
       </main>
