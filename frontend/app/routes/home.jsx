@@ -1,6 +1,8 @@
 import { ChatMessages, ChatInput } from "../components/Chat";
+import { useState } from "react";
 
-const messages = [
+
+const initialmessages = [
         {id:1, type:"user", content:"Hello! Can you help me understand React Router v7?"},
         {id:2, type:"bot", content:"Of course! React Router v7 is the latest version that introduces several improvements including better data loading, enhanced nested routing, and improved TypeScript support. What specific aspect would you like to learn about?"},
         {id:3, type:"user", content:"How do nested routes work in v7?"},
@@ -13,14 +15,24 @@ const messages = [
         {id:10, type:"bot", content:"React Router v7 provides excellent data loading capabilities through loader functions. You can define a `loader` function in your route component that runs before the component renders, ensuring your data is available immediately. You can access the loaded data using the `useLoaderData()` hook within your component."}
     ];
 export default function Home() {
+  const [messages, setMessages] =useState(initialmessages);
 
+  const addMessage = (content) => {
+    const newMessage = {
+      id: messages.length + 1,
+      type: "user",
+      content: content
+    };
+
+    setMessages([...messages, newMessage]);
+  };
   
   return (
     <main className="chat-container">
       <ChatMessages messages={messages}/>
 
       {/* Chat input area */}
-      <ChatInput />
+      <ChatInput onAddMessage={addMessage}/>
       
     </main>
   );

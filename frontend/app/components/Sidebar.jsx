@@ -8,6 +8,8 @@
  * 4. File organization for better project structure
  */
 
+import { useState } from "react";
+
 /**
  * SidebarHeader Component
  *
@@ -32,11 +34,13 @@ function SidebarHeader() {
  * Demonstrates props usage: receives href and title from parent component.
  * This pattern allows the same component structure with different data.
  */
-function ChatThreadItem({href, title, id}) {
+function ChatThreadItem({href, title, id, onDeleteThread}) {
 
-  function handleDeleteClick(){
+  function handleDeleteClick(event){
     event.stopPropagation();
-    console.log({id, href, title, timestamp: new Date().toISOString()});
+    if(onDeleteThread){
+        onDeleteThread(id);
+    }
   }
 
   return (
@@ -45,7 +49,7 @@ function ChatThreadItem({href, title, id}) {
         <a href={href} className="chat-thread-link">
         {title}
       </a>
-      <button type="button" aria-label="delete buttons" onClick={handleDeleteClick}>&times;</button>
+      <button type="button" aria-label={`Delete thread ${title}`} onClick={handleDeleteClick}>&times;</button>
       </div>
       
     </li>
@@ -61,17 +65,27 @@ function ChatThreadItem({href, title, id}) {
  * 3. DATA FLOW: Shows how data moves through multiple component layers
  * 4. CONSISTENT PATTERNS: Uses same props.data.map() pattern as ChatMessages
  */
-function ChatThreadsList({threads =[]}) {
+function ChatThreadsList({threads =[], onDeleteThread}) {
+    const [searchValue, setSearchValue] = useState("");
+    
+    const handleSearchChange =(event) => {
+        setSearchValue(event.target.value);
+    };
+
+    const filteredThreads =threads.filter((thread) =>
+         thread.title.toLowerCase().includes(searchValue.toLowerCase()),);
   return (
     <nav className="chat-threads-list" aria-label="Chat threads">
+        <input className="search-input" value={searchValue} onChange={handleSearchChange} placeholder="Search conversations..." />
       <ul>
         {/* Using props.threads - data passed down through prop drilling! */}
-        {threads.map(({id, href, title}) => (
+        {filteredThreads.map(({id, href, title}) => (
           <ChatThreadItem
             key={id}
             href={href}
             title={title}
             id={id}
+            onDeleteThread={onDeleteThread}
           />
         ))}
       </ul>
@@ -111,12 +125,13 @@ function SidebarFooter() {
  * 3. INTERMEDIATE COMPONENT: Acts as bridge between Layout and ChatThreadsList
  * 4. COMPONENT COMPOSITION: Combines multiple components while managing data flow
  */
-export default function Sidebar({threads =[]}) {
+export default function Sidebar({threads, onDeleteThread}) {
   return (
     <aside className="sidebar">
       {/* Component composition with prop drilling */}
       <SidebarHeader />
-      <ChatThreadsList threads={threads} />
+      <ChatThreadsList threads={threads}
+      onDeleteThread={onDeleteThread} />
       <SidebarFooter />
     </aside>
   );

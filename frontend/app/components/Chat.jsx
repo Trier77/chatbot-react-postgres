@@ -9,6 +9,8 @@
  * 4. REUSABLE MODULES: Components that can be imported anywhere in the app
  */
 
+import { useState } from "react";
+
 /**
  * Message Component
  *
@@ -53,19 +55,46 @@ function ChatMessages({messages = []}) {
  * Form component that handles user input for sending messages.
  * Contains textarea and send button for message composition.
  */
-function ChatInput() {
+function ChatInput({onAddMessage}) {
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    
+
+    //why is this not a function, but a variable, when the manual says "create a function"
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const message = formData.get("message").trim();
+        if(!message){
+            return;
+        }
+        setIsSubmitting(true);
+        if(onAddMessage){
+            onAddMessage(message);
+        }
+
+        event.target.reset();
+
+        
+        setTimeout(()=> {
+            setIsSubmitting(false);
+        }, 1000);
+    }
   return (
     <div className="chat-input-container">
-      <div className="chat-input-wrapper">
-        <textarea
-          className="chat-input"
-          placeholder="Type your message here..."
-          rows="1"
-        />
-        <button className="send-button" type="button">
-          Send
-        </button>
-      </div>
+      
+        <form className="chat-input-wrapper" onSubmit={handleSubmit}>
+            <textarea
+                className="chat-input"
+                placeholder="Type your message here..."
+                rows="1"
+                name="message"
+                />
+                <button className="send-button" type="submit" disabled={isSubmitting}>
+                {isSubmitting ? "Sending..." : "Send"}
+                </button>
+        </form>
+        
+      
     </div>
   );
 }
