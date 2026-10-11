@@ -18,7 +18,17 @@ const threads = [
         {id:14, href:"/chat/interesting-history-fact", title:"Tell me an interesting history fact"},
     ]
 
+/**
+ * Layout Component
+ *
+ * Now demonstrates PROP DRILLING and DATA FLOW:
+ * 1. DATA MANAGEMENT: Layout manages navigation threads data
+ * 2. PROP DRILLING: Data flows Layout -> Sidebar -> ChatThreadsList
+ * 3. CENTRALIZED CONTROL: Navigation data controlled at layout level
+ * 4. COMPONENT COORDINATION: Parent coordinates data between child components
+ */
 export default function Layout() {
+  const [threads, setThreads] =useState(initialiseThreads)
   return (
     <div className="app-layout">
       <Sidebar threads={threads}/>
