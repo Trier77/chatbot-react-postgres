@@ -32,12 +32,22 @@ function SidebarHeader() {
  * Demonstrates props usage: receives href and title from parent component.
  * This pattern allows the same component structure with different data.
  */
-function ChatThreadItem(props) {
+function ChatThreadItem({href, title, id}) {
+
+  function handleDeleteClick(){
+    event.stopPropagation();
+    console.log({id, href, title, timestamp: new Date().toISOString()});
+  }
+
   return (
     <li className="chat-thread-item">
-      <a href={props.href} className="chat-thread-link">
-        {props.title}
+      <div className="chat-thread-item-content">
+        <a href={href} className="chat-thread-link">
+        {title}
       </a>
+      <button type="button" aria-label="delete buttons" onClick={handleDeleteClick}>&times;</button>
+      </div>
+      
     </li>
   );
 }
@@ -51,16 +61,17 @@ function ChatThreadItem(props) {
  * 3. DATA FLOW: Shows how data moves through multiple component layers
  * 4. CONSISTENT PATTERNS: Uses same props.data.map() pattern as ChatMessages
  */
-function ChatThreadsList(props) {
+function ChatThreadsList({threads =[]}) {
   return (
     <nav className="chat-threads-list" aria-label="Chat threads">
       <ul>
         {/* Using props.threads - data passed down through prop drilling! */}
-        {props.threads.map((thread) => (
+        {threads.map(({id, href, title}) => (
           <ChatThreadItem
-            key={thread.id}
-            href={thread.href}
-            title={thread.title}
+            key={id}
+            href={href}
+            title={title}
+            id={id}
           />
         ))}
       </ul>
@@ -100,12 +111,12 @@ function SidebarFooter() {
  * 3. INTERMEDIATE COMPONENT: Acts as bridge between Layout and ChatThreadsList
  * 4. COMPONENT COMPOSITION: Combines multiple components while managing data flow
  */
-export default function Sidebar(props) {
+export default function Sidebar({threads =[]}) {
   return (
     <aside className="sidebar">
       {/* Component composition with prop drilling */}
       <SidebarHeader />
-      <ChatThreadsList threads={props.threads} />
+      <ChatThreadsList threads={threads} />
       <SidebarFooter />
     </aside>
   );

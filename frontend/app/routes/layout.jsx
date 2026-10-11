@@ -1,5 +1,6 @@
 import { Outlet } from "react-router";
 import Sidebar from "../components/Sidebar.jsx";
+import { useState } from "react";
 
 /**
  * STATIC DATA AT MODULE SCOPE
@@ -10,7 +11,9 @@ import Sidebar from "../components/Sidebar.jsx";
  * 3. CENTRALIZED DATA: Managing navigation data at the layout level
  * 4. COMPONENT REUSABILITY: Sidebar can work with different thread arrays
  */
-const threads = [
+
+
+const initialiseThreads = [
   {
     id: 1,
     href: "/chat/how-to-learn-programming",
@@ -75,6 +78,9 @@ const threads = [
   },
 ];
 
+
+
+
 /**
  * Layout Component
  *
@@ -85,6 +91,7 @@ const threads = [
  * 4. COMPONENT COORDINATION: Parent coordinates data between child components
  */
 export default function Layout() {
+  const [threads, setThreads] =useState(initialiseThreads)
   return (
     <div className="app-layout">
       {/* Passing threads as props - starts the prop drilling chain! */}

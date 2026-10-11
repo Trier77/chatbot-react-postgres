@@ -16,10 +16,10 @@
  * Accepts props to customize message type and uses props.children for message content.
  * https://react.dev/learn/passing-props-to-a-component#passing-jsx-as-children
  */
-function Message(props) {
+function Message({type, children}) {
   return (
-    <div className={`message ${props.type}-message`}>
-      <div className="message-content">{props.children}</div>
+    <div className={`message ${type}-message`}>
+      <div className="message-content">{children}</div>
     </div>
   );
 }
@@ -34,13 +34,13 @@ function Message(props) {
  * 4. SEPARATION OF CONCERNS: Component focuses on rendering, parent manages data
  * 5. MAP() WITH PROPS: Uses props.messages instead of internal data
  */
-function ChatMessages(props) {
+function ChatMessages({messages = []}) {
   return (
     <div className="chat-messages">
       {/* Using props.messages - data comes from parent component! */}
-      {props.messages.map((message) => (
-        <Message key={message.id} type={message.type}>
-          {message.content}
+      {messages.map(({id, type, content}) => (
+        <Message key={id} type={type}>
+          {content}
         </Message>
       ))}
     </div>
