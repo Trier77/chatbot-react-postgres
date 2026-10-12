@@ -1,3 +1,5 @@
+
+
 /**
  * Sidebar Components
  *
@@ -9,6 +11,9 @@
  */
 
 import { useState } from "react";
+import { Link, href, } from "react-router";
+
+
 
 /**
  * SidebarHeader Component
@@ -20,9 +25,9 @@ function SidebarHeader() {
   return (
     <div className="sidebar-header">
       <h2 className="chatbot-title">Chatbot</h2>
-      <a href="/chat/new" className="new-chat-btn">
+      <Link to="/chat/new" className="new-chat-btn">
         + New
-      </a>
+      </Link>
     </div>
   );
 }
@@ -34,7 +39,7 @@ function SidebarHeader() {
  * Demonstrates props usage: receives href and title from parent component.
  * This pattern allows the same component structure with different data.
  */
-function ChatThreadItem({href, title, id, onDeleteThread}) {
+function ChatThreadItem({title, id, onDeleteThread}) {
 
   function handleDeleteClick(event){
     event.stopPropagation();
@@ -46,9 +51,10 @@ function ChatThreadItem({href, title, id, onDeleteThread}) {
   return (
     <li className="chat-thread-item">
       <div className="chat-thread-item-content">
-        <a href={href} className="chat-thread-link">
+        <Link to={href("/chat/:threadId", { threadId: id })}
+        className="chat-thread-link">
         {title}
-      </a>
+      </Link>
       <button type="button" aria-label={`Delete thread ${title}`} onClick={handleDeleteClick}>&times;</button>
       </div>
       
@@ -79,10 +85,10 @@ function ChatThreadsList({threads =[], onDeleteThread}) {
         <input className="search-input" value={searchValue} onChange={handleSearchChange} placeholder="Search conversations..." />
       <ul>
         {/* Using props.threads - data passed down through prop drilling! */}
-        {filteredThreads.map(({id, href, title}) => (
+        {filteredThreads.map(({id, title}) => (
           <ChatThreadItem
             key={id}
-            href={href}
+            
             title={title}
             id={id}
             onDeleteThread={onDeleteThread}
@@ -102,7 +108,7 @@ function ChatThreadsList({threads =[], onDeleteThread}) {
 function SidebarFooter() {
   return (
     <div className="sidebar-footer">
-      <a href="/profile" className="user-profile">
+      <Link to="/profile" className="user-profile">
         <img
           src="https://ui-avatars.com/api/?name=Batman&background=0D0D0D&color=fff&size=40"
           alt="User avatar"
@@ -111,7 +117,7 @@ function SidebarFooter() {
           height={30}
         />
         <span className="user-name">Batman</span>
-      </a>
+      </Link>
     </div>
   );
 }

@@ -272,12 +272,27 @@ body {
   border: none;
   background: none;
   width: 2rem;
+  height: 2rem;
   color: red;
   font-size: 1.1rem;
+  border-radius: 0.3rem;
 }
 
 .chat-thread-item-content:hover button {
   opacity: 1;
   
   
+  
+}
+
+.chat-thread-item-content button:hover {
+  background-color: #bc153193;
+  cursor: pointer;
+}
+
+.chat-thread-header{
+  text-align: center;
+  padding: 3rem 2rem;
+  text-align: center;
+  color: var(--text-muted);
 }
