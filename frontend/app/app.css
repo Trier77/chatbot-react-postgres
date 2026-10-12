@@ -296,3 +296,7 @@ body {
   text-align: center;
   color: var(--text-muted);
 }
+
+.chat-thread-link-active{
+  font-weight: bold;
+}

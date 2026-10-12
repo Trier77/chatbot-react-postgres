@@ -1,7 +1,16 @@
 import { ChatInput, ChatMessages } from "../components/Chat";
 import { useState } from "react";
 import { useParams } from "react-router";
-const defaultMessages = [
+import { useLoaderData } from "react-router";
+
+    
+
+
+export async function clientLoader({ params }) {
+
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
+    const defaultMessages = [
     {
         id: 1,
     type: "user",
@@ -12,22 +21,22 @@ const defaultMessages = [
         type: "bot",
         content: "This is the first bot response"
     }
-    
-]
+    ];
+    return {
+        threadId: params.threadId,
+        messages: defaultMessages
+    };
 
+    
+}
 
 
 export default function chatThread() {
-  const [messages, setMessages] =useState(defaultMessages);
-    const {threadId} = useParams();
+  const {threadId, messages} =useLoaderData();
+    
   const addMessage = (content) => {
-    const newMessage = {
-      id: messages.length + 1,
-      type: "user",
-      content: content
-    };
-
-    setMessages([...messages, newMessage]);
+    console.log("Message submitted:", content);
+    console.log("(Data mutations will be implemented in the next phase)");
   };
   
   return (

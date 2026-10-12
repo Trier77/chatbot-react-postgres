@@ -11,7 +11,7 @@
  */
 
 import { useState } from "react";
-import { Link, href, } from "react-router";
+import { NavLink, Link, href, } from "react-router";
 
 
 
@@ -51,10 +51,12 @@ function ChatThreadItem({title, id, onDeleteThread}) {
   return (
     <li className="chat-thread-item">
       <div className="chat-thread-item-content">
-        <Link to={href("/chat/:threadId", { threadId: id })}
-        className="chat-thread-link">
+        <NavLink to={href("/chat/:threadId", { threadId: id })}
+        className={({ isActive,}) =>
+            isActive ? "chat-thread-link chat-thread-link-active" : "chat-thread-link"
+        }>
         {title}
-      </Link>
+      </NavLink>
       <button type="button" aria-label={`Delete thread ${title}`} onClick={handleDeleteClick}>&times;</button>
       </div>
       
